@@ -20,7 +20,7 @@ import model.ToppingDbUtil;
 /**
  * Servlet implementation class ShowItemDetailControllerServlet
  */
-@WebServlet("/ShowItemDetailControllerServlet")
+@WebServlet("/show_item_detail")
 public class ShowItemDetailControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

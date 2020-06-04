@@ -87,7 +87,7 @@
   	         <c:forEach var="item" items="${threeItemList}">
 	  	       <!-- リンクの設定 -->
   	 	       <c:url var="detailLink" value="ShowItemDetailControllerServlet">
-	             <c:param name="itemId" value="item.id"/>
+	             <c:param name="itemId" value="${item.id}"/>
 	           </c:url>
 	           
 	           <th>

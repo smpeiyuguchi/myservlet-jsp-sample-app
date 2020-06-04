@@ -14,7 +14,6 @@ public class ItemDbUtil {
 
 	// フィールド
 	private DataSource dataSource;
-
 	// コンストラクタ
 	public ItemDbUtil(DataSource dataSource) {
 		super();
@@ -28,20 +27,15 @@ public class ItemDbUtil {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-
 		try {
 			// 接続先の確保
 			con = dataSource.getConnection();
-
 			// SQL文の作成
 			String sql = "SELECT id, name, description, price_m, price_l, image_path, deleted FROM items ORDER BY price_m";
-
 			// 接続準備
 			pstmt = con.prepareStatement(sql);
-
 			// SQL実行
 			rs = pstmt.executeQuery();
-
 			// マッピング
 			while (rs.next()) {
 				Item item = new Item();
@@ -54,10 +48,8 @@ public class ItemDbUtil {
 				item.setDeleted(rs.getBoolean("deleted"));
 				itemList.add(item);
 			}
-
 			// オブジェクトの受け渡し
 			return itemList;
-
 		} finally {
 			// 切断
 			close(con, pstmt, rs);
@@ -79,6 +71,35 @@ public class ItemDbUtil {
 			ex.printStackTrace();
 		}
 
+	}
+	
+	public Item load(Integer itemId) throws Exception{
+		Item item = new Item();
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			con = dataSource.getConnection();
+			String sql = "SELECT id, name, description, price_m, price_l, image_path, deleted FROM items "
+					+ "WHERE id = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, itemId);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				item.setId(rs.getInt("id"));
+				item.setName(rs.getString("name"));
+				item.setDescription(rs.getString("description"));
+				item.setPriceM(rs.getInt("price_m"));
+				item.setPriceL(rs.getInt("price_l"));
+				item.setImagePath(rs.getString("image_path"));
+				item.setDeleted(rs.getBoolean("deleted"));
+			}
+			return item;
+		}finally {
+			close(con, pstmt, rs);
+		}
 	}
 
 }
